@@ -16,6 +16,7 @@ import ManageBooks from "../pages/dashboard/manageBooks/ManageBooks";
 import AddBook from "../pages/dashboard/addBook/AddBook";
 import UpdateBook from "../pages/dashboard/EditBook/UpdateBook";
 import UserDashboard from "../pages/dashboard/users/UserDashboard";
+import WishlistPage from './pages/wishlist/WishlistPage'; 
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         {
             path: "/",
             element: <Home/>,
+        },
+        {
+          path:"/wishlist" ,
+          element:<WishlistPage/>,
         },
         {
             path: "/orders",
