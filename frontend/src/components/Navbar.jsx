@@ -89,7 +89,7 @@ const Navbar = () => {
                         }
                     </div>
                     
-                    <Link to="/likes" style={{color:"black"}}>
+                    <Link to="/wishlist" style={{color:"yellow"}}>
                         <HiOutlineHeart className="size-6"/>
                     </Link>
 
