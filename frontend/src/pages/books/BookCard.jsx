@@ -6,6 +6,7 @@ import { HiOutlineHeart } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/features/cart/cartSlice';
+import { addToWishlist } from '../../redux/features/wishlist/wishlistSlice';
 
 const BookCard = ({ book }) => {
     const dispatch = useDispatch();
@@ -17,6 +18,9 @@ const BookCard = ({ book }) => {
     };
 
     const handleWishlistToggle = () => {
+        if (!isWished) {
+            dispatch(addToWishlist(book));
+        }
         setIsWished(!isWished);
     };
 
