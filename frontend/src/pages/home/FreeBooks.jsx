@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import BookCard from "../books/BookCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import {
-	useFetchAllBooksQuery,
-	useFetchLikedBooksByIdQuery,
-} from "../../redux/features/books/booksApi";
-import { useAuth } from "../../context/AuthContext";
+import { useFetchAllBooksQuery } from "../../redux/features/books/booksApi";
 
 const categories = [
 	"Choose a genre",
@@ -19,22 +15,22 @@ const categories = [
 	"Adventure",
 ];
 
-const TopSellers = () => {
+const FreeBooks = () => {
 	const [selectedCategory, setSelectedCategory] = useState("Choose a genre");
-	const [isHovered, setIsHovered] = useState(false);
-	const { currentUser } = useAuth();
-	const { data: books = [] } = useFetchAllBooksQuery(currentUser?.uid);
+	const { data: books = [] } = useFetchAllBooksQuery();
 
 	const filteredBooks =
 		selectedCategory === "Choose a genre"
-			? books
+			? books.filter((book) => book.newPrice === 0)
 			: books.filter(
-					(book) => book.category === selectedCategory.toLowerCase()
+					(book) =>
+						book.category === selectedCategory.toLowerCase() &&
+						book.newPrice === 0
 			  );
 
 	return (
 		<div className="py-10">
-			<h2 className="text-3xl font-semibold mb-6">Top Sellers</h2>
+			<h2 className="text-3xl font-semibold mb-6">Free Books</h2>
 			<div className="mb-8 flex items-center">
 				<select
 					onChange={(e) => setSelectedCategory(e.target.value)}
@@ -80,15 +76,18 @@ const TopSellers = () => {
 				modules={[Pagination, Navigation]}
 				className="mySwiper"
 			>
-				{filteredBooks.length > 0 &&
+				{filteredBooks.length > 0 ? (
 					filteredBooks.map((book, index) => (
 						<SwiperSlide key={index}>
 							<BookCard book={book} />
 						</SwiperSlide>
-					))}
+					))
+				) : (
+					<p className="text-zinc-900">No books found</p>
+				)}
 			</Swiper>
 		</div>
 	);
 };
 
-export default TopSellers;
+export default FreeBooks;
